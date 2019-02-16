@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
+from functools import *
 
 app = Flask(__name__)
 
@@ -32,11 +33,28 @@ def test_view():
             {
                 'lat': 36.4100,
                 'lng': -121.1350
-            }
+            },
         ],
         zoom=12,
         cluster=True
     )
+
+    # Calculating the center point of the markers
+    latList = [],
+    lngList = [],
+    latList = list(latList)
+    lngList = list(lngList)
+    for dict in clustermap.markers:
+        for key, value in dict.items():
+            if key == 'lat':
+                latList.append(dict['lat'])
+            else:
+                lngList.append(dict['lng'])
+    center = {'icon' : 'http://maps.google.com/mapfiles/ms/icons/green-dot.png', 
+            'lat' : (reduce((lambda x, y: x + y), latList[1:]) / len(latList[1:])),
+            'lng' : (reduce((lambda x, y: x + y), lngList[1:]) / len(lngList[1:]))}
+    clustermap.markers.append(center.copy())
+
     return render_template('home.html', clustermap=clustermap)
 
 if __name__ == "__main__":

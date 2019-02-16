@@ -13,6 +13,7 @@ def test_view():
         varname="clustermap",
         lat=37.4419,
         lng=-122.1419,
+        style="height: 425px; width: 1000px;",
         markers=[
             {
                 'lat': 37.4500,
@@ -36,7 +37,7 @@ def test_view():
             },
         ],
         zoom=12,
-        cluster=True
+        cluster=False
     )
 
     # Calculating the center point of the markers

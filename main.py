@@ -11,6 +11,7 @@ def test_view():
     clustermap = Map(
         identifier="clustermap",
         varname="clustermap",
+        style="height:500px;width:500px;margin:300;",
         lat=37.4419,
         lng=-122.1419,
         markers=[

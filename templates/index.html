@@ -3,8 +3,8 @@
     <head>
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <title>Flask Google Maps Test</title>
-            {{clustermap.js}}
+            <title>Meetup</title>
+            {{group_map.js}}
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 
@@ -15,25 +15,19 @@
             body {
                 background-color: lightgray;
             }
-
             h1 {
                 text-align: center;
             }
-
             #title{
                 text-align: center;
                 padding-top: 50px;
             }
-
             #map{
                 margin:auto;
-
             }
-
             .row{
                 padding-top: 10px;
             }
-
             #back{
                 margin: auto;
                 margin-top: 10px;
@@ -63,7 +57,7 @@
             <div class="row">
                 <div id="map">
 
-                    {{clustermap.html}}
+                    {{group_map.html}}
 
                 </div>
             </div>

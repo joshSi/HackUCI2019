@@ -25,19 +25,20 @@
             </ul>
           </div>
         </nav>
-        <div align = "center" class = "container">
-            <div style="background:transparent !important" class="jumbotron">
-                <h1 style = "font-size : 60px" class="display"> <strong>Meet Up</strong></h1>
-                    <p style = "font-size: 16px" class="display"><strong>Can't decide on a place to meet up with your friends? Click the button below.</strong></p>
-            </div>
-        </div>
-        <div>
-            <div class="row">
-                 <div align = "center" class = "container">
-                     <a id="add" type = "button" class="btn btn-secondary btn-lg" href="/map">Add Your Location</a>
-            </div>
-        </div>
 
+        <div id = "form" class = "container">
+            <h1 style = "text-align : center">Enter Friend's Location</h1>
+            <form action = "/input" method = "post">
+                <div class="form-group">
+                    <label><strong>Latitude</strong></label>
+                    <input type = "text" class="form-control" name = "lat" placeholder="Enter latitude">
+                </div>
+                <div class="form-group">
+                    <label><strong>Longitude</strong></label>
+                    <input type="text" class="form-control" name = "lng" placeholder="Enter longitude">
+                </div>
+                <div align = "center" ><button type="submit" class="btn btn-primary">Submit</button></div>
+            </form>
         </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

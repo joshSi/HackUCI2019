@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/index.css" type ="text/css">
+    <html>
+    <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title>Meet Up</title>
+            {{group_map.js}}
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <link rel="stylesheet" href="/static/index.css" type ="text/css">
 
-</head>
-<body id = "background">
+    </head>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <body id="results">
+         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <a class="navbar-brand" href="/home">Meet Up</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -17,7 +19,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item active">
-                <a class="nav-link" href="#">Add Yourself <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/map">Add Yourself <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/demo">Demo</a>
@@ -25,23 +27,24 @@
             </ul>
           </div>
         </nav>
-        <div align = "center" class = "container">
-            <div style="background:transparent !important" class="jumbotron">
-                <h1 style = "font-size : 60px" class="display"> <strong>Meet Up</strong></h1>
-                    <p style = "font-size: 16px" class="display"><strong>Can't decide on a place to meet up with your friends? Click the button below.</strong></p>
-            </div>
-        </div>
-        <div>
-            <div class="row">
-                 <div align = "center" class = "container">
-                     <a id="add" type = "button" class="btn btn-secondary btn-lg" href="/map">Add Your Location</a>
-            </div>
-        </div>
 
-        </div>
+        <div class="container">
+            <h1 id="title" >Meet Up: Your Meeting Spot!</h1>
+            <h2 style="text-align:center"> {{ meetingPoint }} </h2>
+            <div class="row">
+                <div id="map">
+
+                    {{group_map.html}}
+
+                </div>
+            </div>
+
+            <div class="row">
+                <a href="#" id="back"class="btn btn-secondary" href="/home">Back</a>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
+
+    </body>
 </html>

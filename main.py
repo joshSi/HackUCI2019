@@ -10,8 +10,10 @@ GoogleMaps(app, key=mykey)
 
 @app.route("/")
 def test_view():
-    client = googlemaps.Client(key = mykey)
-    myloc = googlemaps.client.geolocate(client, consider_ip = True)
+    gmaps = googlemaps.Client(key=mykey)
+    myloc = gmaps.geolocate()
+
+    
     meMarker = {'icon' : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', 
             'lat' : myloc['location']['lat'],
             'lng' : myloc['location']['lng']}
@@ -70,13 +72,10 @@ def test_view():
 
     group_map.markers.append(meMarker)
 
-    gmaps = googlemaps.Client(key="AIzaSyASiSZuUB8z7D3Kd9ZoIIz3Ba4YWabpK1Q")
     reverse_geocode_result = gmaps.reverse_geocode((center['lat'], center['lng']))
-    #print(reverse_geocode_result)
     for dict in reverse_geocode_result:
         for key, value in dict.items():
             if key == 'formatted_address':
-                #print(dict['formatted_address'])
                 meetingPoint = dict['formatted_address']
                 break
         else:

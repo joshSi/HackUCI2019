@@ -37,6 +37,56 @@
                     {{group_map.html}}
 
                 </div>
+                <div class="row">
+                  <!-- <button onclick="getLocation()">Get My Location</button> -->
+
+  
+                      <p id="locationTest"></p>
+          
+                      <script>
+                      var x = document.getElementById("locationTest");
+          
+                      function getLocation() {
+                          if (navigator.geolocation) {
+                              return(navigator.geolocation.getCurrentPosition(savePosition));
+                          } else { 
+                              x.innerHTML = "Geolocation is not supported by this browser.";
+                          }
+
+                      }
+
+  
+                      function showPosition(position) {
+                          
+                          //x.innerHTML = "Latitude: " + position.coords.latitude + 
+                          //"<br>Longitude: " + position.coords.longitude;
+                          lat = position.coords.latitude
+                          lng = position.coords.longitude
+                          return(lat, lng)
+                          // $.ajax(
+                          // {
+                          //     type:'POST',
+                          //     contentType:'application/json;charset-utf-08',
+                          //     dataType:'json',
+                          //     values: (position.coords.latitude, position.coords.longitude),
+                          //     success:function (data) {
+                          //         var reply=data.reply;
+                          //         if (reply=="success")
+                          //         {
+                          //             return;
+                          //         }
+                          //         else
+                          //         {
+                          //             alert("some error ocured in session agent")
+                          //         }
+       
+                          //     }
+                          // });
+                      }
+
+                      </script>
+                      
+                </div>
             </div>
 
             <div class="row">

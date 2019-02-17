@@ -12,6 +12,14 @@ GoogleMaps(app, key=mykey)
 friend_locations = []
 meetingPoint = None
 
+@app.route("/showLoc", methods = ['POST', 'GET'])
+def getLoc():
+    if request.method == 'POST':
+        value = request.form['test']
+    print("TESTING")
+    print(value)
+    return redirect('/map')
+
 @app.route("/")
 def redir():
     return redirect("/home")
@@ -51,6 +59,7 @@ def test_view():
             'lng' : myloc['location']['lng']}
     
     friend_locations += [meMarker]
+    print("length: ", len(friend_locations))
 
     latList, lngList = [], []
     # Calculating the center point of the markers
@@ -78,16 +87,24 @@ def test_view():
         cluster=False
     )
     
+    meetingPoint = ''
+    print(big_list)
+    #print(center)
     reverse_geocode_result = gmaps.reverse_geocode((center['lat'], center['lng']))
+    #print(reverse_geocode_result)
     for dict in reverse_geocode_result:
+        #print(dict)
         for key, value in dict.items():
             if key == 'formatted_address':
-                print()
                 meetingPoint = dict['formatted_address']
                 break
         else:
             continue
         break
+    print(meetingPoint)
+    if meetingPoint == '':
+        meetingPoint = 'Ocean'
+
     return render_template('map.html', group_map=group_map, meetingPoint=meetingPoint)
 
 if __name__ == "__main__":

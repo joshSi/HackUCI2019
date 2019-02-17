@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Meet Up</title>
+    <title>RendezVu</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/index.css" type ="text/css">
 
@@ -10,7 +10,7 @@
 <body id = "background">
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="/home">Meet Up</a>
+          <a class="navbar-brand" href="/home">RendezVu</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -27,18 +27,21 @@
         </nav>
         <div align = "center" class = "container">
             <div style="background:transparent !important" class="jumbotron">
-                <h1 style = "font-size : 60px" class="display"> <strong>Meet Up</strong></h1>
+                <h1 style = "font-size : 60px" class="display"> <strong>RendezVu</strong></h1>
                     <p style = "font-size: 16px" class="display"><strong>Can't decide on a place to meet up with your friends? Click the button below.</strong></p>
             </div>
         </div>
-
         <div>
             <div class="row">
                  <div align = "center" class = "container">
-                     <!-- <a id="add" type = "button" class="btn btn-secondary btn-lg" href="/map">Add Your Location</a> -->
-                     <!-- < <a id="add" type = "button" class="btn btn-secondary btn-lg" href="/map">Add Your Location</a>>Add Your Location</a> -->
                      <form action ="/showLoc" method="post">
-                      <button type="submit" name="test" value=bigLocation class="btn btn-secondary btn-lg">Add Your Location</button>
+                        <div id = "mainUser" class = "container">
+                          <div align = "center" class="form-group">
+                                  <label><strong>Username</strong></label>
+                                  <input type="text" class="form-control" name = "username" placeholder="Enter your name">
+                          </div>
+                        </div>
+                      <button id = "findLoc" type="submit" name="myLoc" class="btn btn-secondary btn-lg">Add Your Location</button>
                     </form>
             </div>
         </div>
@@ -49,16 +52,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script>
-          var x = document.getElementById("locationTest");
+          var x = document.getElementById("findLoc");
 
           function getLocation() {
               if (navigator.geolocation) {
                   return(navigator.geolocation.getCurrentPosition(savePosition));
               } else { 
-                  x.innerHTML = "Geolocation is not supported by this browser.";
+                  x.value = "Geolocation is not supported by this browser.";
               }
           }
-          bigLocation = getLocation()
+          function savePosition(position){
+            x.value = position.coords.latitude+','+position.coords.longitude;
+          }
+
+          getLocation();
         </script>
       </body>
 </html>

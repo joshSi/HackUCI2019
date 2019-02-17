@@ -49,3 +49,8 @@
                 background-image: url("https://images.unsplash.com/photo-1428908728789-d2de25dbd4e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80");
                 background-size: cover;
             }
+            #mainUser{
+                width : 15%;
+                height : 25%;
+                margin : auto;
+            }

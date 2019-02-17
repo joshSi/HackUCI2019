@@ -1,3 +1,4 @@
 flask
 flask-googlemaps
 googlemaps
+numpy

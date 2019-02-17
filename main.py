@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect
-from flask_googlemaps import GoogleMaps
-from flask_googlemaps import Map, icons
-from functools import reduce
+from flask_googlemaps import GoogleMaps, Map, icons
+from calc import getCenter
 from copy import copy
 import googlemaps
 
@@ -35,7 +34,8 @@ def enter_data():
             'icon' : 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
             'lat' : float(request.form['lat']),
             'lng' : float(request.form['lng']),
-            'username' : str(request.form['username'])}]
+            'infobox' : request.form['username']
+                +' ('+"{0:.2f}".format(request.form['lat'])+','+"{0:.2f}".format(request.form['lng'])+')'}]
         # print("latitude", request.form['lat'])
         # print("longitude", request.form['lng'])
         # print("username", request.form['username'])
@@ -50,22 +50,24 @@ def test_view():
     
     meMarker = {'icon' : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', 
             'lat' : myloc['location']['lat'],
-            'lng' : myloc['location']['lng']}
+            'lng' : myloc['location']['lng'],
+            'infobox' : 'You'}
     
     friend_locations += [meMarker]
 
-    latList, lngList = [], []
+    coordSet = set()
     # Calculating the center point of the markers
+    print("List:")
     for point in friend_locations:
-        latList.append(point['lat'])
-        lngList.append(point['lng'])
-    
-    latList.append(meMarker['lat'])
-    lngList.append(meMarker['lng'])
+        coordSet.add((point['lat'], point['lng']))
+        print('\t', point['lat'], point['lng'])
+
+    new_lat, new_lng = getCenter(coordSet)
     center = {'icon' : 'http://maps.google.com/mapfiles/ms/icons/green-dot.png', 
-            'lat' : (reduce((lambda x, y: x + y), latList[1:]) / len(latList[1:])),
-            'lng' : (reduce((lambda x, y: x + y), lngList[1:]) / len(lngList[1:])),
-            'infobox': "<b style='color:green;'>Meeting Point</b>"}
+            'lat' : (new_lat),
+            'lng' : (new_lng),
+            'infobox': "<b style='color:green;'>Meeting Point</b>"
+                +' ('+"{0:.2f}".format(new_lat)+','+"{0:.2f}".format(new_lng)+')'}
     big_list = copy(friend_locations)
     big_list.append(center)
     group_map = Map(
@@ -93,5 +95,4 @@ def test_view():
     return render_template('map.html', group_map=group_map, meetingPoint=meetingPoint)
 
 if __name__ == "__main__":
-    # app.run(debug=True, host = "0.0.0.0", port = 8080)
-    app.run(debug=True)
+    app.run(debug=True, host = "0.0.0.0", port = 8080)

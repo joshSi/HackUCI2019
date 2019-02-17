@@ -1,8 +1,41 @@
 from flask import Flask, render_template, request, redirect
 from flask_googlemaps import GoogleMaps, Map, icons
-from calc import getCenter
 from copy import copy
-import googlemaps
+import googlemaps, numpy
+
+def getCenter(coordSet):
+    coord_count = len(coordSet)
+    if coord_count <= 0:
+        return False
+
+    X = 0.0
+    Y = 0.0
+    Z = 0.0
+
+    for i, j in coordSet:
+        lat = i * numpy.pi / 180
+        lng = j * numpy.pi / 180
+
+        a = numpy.cos(lat) * numpy.cos(lng)
+        b = numpy.cos(lat) * numpy.sin(lng)
+        c = numpy.sin(lat)
+
+        X += a
+        Y += b
+        Z += c
+
+
+    X /= coord_count
+    Y /= coord_count
+    Z /= coord_count
+
+    lng = numpy.arctan2(Y, X)
+    hyp = numpy.sqrt(X * X + Y * Y)
+    lat = numpy.arctan2(Z, hyp)
+
+    newlat = (lat * 180 / numpy.pi)
+    newlng = (lng * 180 / numpy.pi)
+    return newlat, newlng
 
 app = Flask(__name__)
 mykey = "AIzaSyASiSZuUB8z7D3Kd9ZoIIz3Ba4YWabpK1Q"
@@ -10,6 +43,18 @@ GoogleMaps(app, key=mykey)
 
 friend_locations = []
 meetingPoint = None
+
+@app.route("/showLoc", methods = ['POST', 'GET'])
+def getLoc():
+    if request.method == 'POST':
+        lat, lng = request.form['myLoc'].split(',')
+        me = {
+            'icon' : 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            'lat' : float(lat),
+            'lng' : float(lng),
+            'infobox' : request.form['username']
+                +' ('+"{0:.2f}".format(float(lat))+', '+"{0:.2f}".format(float(lng))+')'}
+    return redirect('/map')
 
 @app.route("/")
 def redir():
@@ -35,7 +80,7 @@ def enter_data():
             'lat' : float(request.form['lat']),
             'lng' : float(request.form['lng']),
             'infobox' : request.form['username']
-                +' ('+"{0:.2f}".format(request.form['lat'])+','+"{0:.2f}".format(request.form['lng'])+')'}]
+                +' ('+"{0:.2f}".format(float(request.form['lat']))+', '+"{0:.2f}".format(float(request.form['lng']))+')'}]
         # print("latitude", request.form['lat'])
         # print("longitude", request.form['lng'])
         # print("username", request.form['username'])
@@ -54,6 +99,7 @@ def test_view():
             'infobox' : 'You'}
     
     friend_locations += [meMarker]
+    print("length: ", len(friend_locations))
 
     coordSet = set()
     # Calculating the center point of the markers
@@ -67,7 +113,7 @@ def test_view():
             'lat' : (new_lat),
             'lng' : (new_lng),
             'infobox': "<b style='color:green;'>Meeting Point</b>"
-                +' ('+"{0:.2f}".format(new_lat)+','+"{0:.2f}".format(new_lng)+')'}
+                +' ('+"{0:.2f}".format(new_lat)+', '+"{0:.2f}".format(new_lng)+')'}
     big_list = copy(friend_locations)
     big_list.append(center)
     group_map = Map(
@@ -82,17 +128,24 @@ def test_view():
         cluster=False
     )
     
+    meetingPoint = ''
+    print(big_list)
+    #print(center)
     reverse_geocode_result = gmaps.reverse_geocode((center['lat'], center['lng']))
+    #print(reverse_geocode_result)
     for dict in reverse_geocode_result:
+        #print(dict)
         for key, value in dict.items():
             if key == 'formatted_address':
-                print()
                 meetingPoint = dict['formatted_address']
                 break
         else:
             continue
         break
+    if meetingPoint == '':
+        meetingPoint = 'Unnamed Location'
+
     return render_template('map.html', group_map=group_map, meetingPoint=meetingPoint)
 
 if __name__ == "__main__":
-    app.run(debug=True, host = "0.0.0.0", port = 8080)
+    app.run(debug=True, port = 8080)

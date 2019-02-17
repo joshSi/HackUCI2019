@@ -34,9 +34,11 @@ def enter_data():
         friend_locations += [{
             'icon' : 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
             'lat' : float(request.form['lat']),
-            'lng' : float(request.form['lng'])}]
-        #print("latitude", request.form['lat'])
-        #print("longitude", request.form['lng'])
+            'lng' : float(request.form['lng']),
+            'username' : str(request.form['username'])}]
+        # print("latitude", request.form['lat'])
+        # print("longitude", request.form['lng'])
+        # print("username", request.form['username'])
         return redirect("/home")
 
 @app.route("/map")
@@ -91,4 +93,5 @@ def test_view():
     return render_template('map.html', group_map=group_map, meetingPoint=meetingPoint)
 
 if __name__ == "__main__":
-    app.run(debug=True, host = "0.0.0.0", port = 8080)
+    # app.run(debug=True, host = "0.0.0.0", port = 8080)
+    app.run(debug=True)
